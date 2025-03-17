@@ -2,10 +2,12 @@ import CartProduct from '../components/CartProduct';
 import NavBar from '../components/Navbar';
 
 import { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 const Cart = () => {
 
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/v2/product/cartproducts?email=${'reebanaustrive@gmail.com'}`)
@@ -44,6 +46,9 @@ const Cart = () => {
       }, []);
     
       console.log("Products:", products);
+      const handlePlaceOrder = () => {
+        navigate('/select-address');
+      };
 
     return (
         <div className='w-full h-screen'>
@@ -60,9 +65,16 @@ const Cart = () => {
                             ))
                         }
                     </div>
+                    <div className='w-full p-4 flex justify-end'>
+                      <button
+                      onClick={handlePlaceOrder} className='bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600'>
+                        Place Order
+                      </button>
+                    </div>
                 </div>
             </div>
         </div>
+        
     );
 }
 export default Cart;
